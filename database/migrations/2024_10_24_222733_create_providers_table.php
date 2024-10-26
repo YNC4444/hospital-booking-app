@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone');
             $table->text('address');
             $table->string('specialization');
+            $table->string('services');
             $table->string('license_number')->unique();
             $table->date('employment_date');
             $table->string('status')->default('Active');

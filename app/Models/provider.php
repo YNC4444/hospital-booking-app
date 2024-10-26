@@ -24,6 +24,7 @@ class provider extends Model
         'phone',
         'address',
         'specialization',
+        'services',
         'license_number',
         'employment_date',
         'status',
