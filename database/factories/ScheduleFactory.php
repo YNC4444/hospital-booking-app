@@ -2,13 +2,17 @@
 
 namespace Database\Factories;
 
+use App\Models\Schedule;
+use App\Models\Provider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Schedule>
+ * @extends \Illuminate\Database\Eloquent\Factories.Factory<\App\Models\Schedule>
  */
 class ScheduleFactory extends Factory
 {
+    protected $model = Schedule::class;
+
     /**
      * Define the model's default state.
      *
@@ -16,12 +20,17 @@ class ScheduleFactory extends Factory
      */
     public function definition(): array
     {
+        // Generate a random start and end time
+        $start_time = fake()->dateTimeBetween('07:00', '09:00')->format('H:i'); 
+        $end_time = fake()->dateTimeBetween('15:00', '17:00')->format('H:i'); 
+
         return [
-            // 'provider_id' => $this->faker->numberBetween(1, 10),
-            'date' => $this->faker->date(),
-            'start_time' => $this->faker->time(),
-            'end_time' => $this->faker->time(),
-            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
+            // Create a new provider if not provided
+            'provider_id' => Provider::factory(), 
+            'day_of_week' => fake()->randomElement(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'status' => fake()->randomElement(['available', 'booked']),
         ];
     }
 }

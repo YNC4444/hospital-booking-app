@@ -24,8 +24,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Patient::factory(10)->create();
-        Provider::factory(10)->create();
+        Provider::factory(10)->create()->each(function ($provider) {
+            // create 1 to 5 schedules for each provider
+            Schedule::factory(fake()->numberBetween(1, 5))->create([
+                'provider_id' => $provider->id,
+            ]);
+        });
+        
         admin::factory(10)->create();
-        Schedule::factory(10)->create();
     }
 }
