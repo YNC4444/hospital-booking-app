@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Patient;
 use App\Models\User;
+use App\Models\Provider;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Patient::factory(10)->create();
+        Provider::factory(10)->create();
     }
 }
