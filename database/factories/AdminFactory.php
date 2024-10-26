@@ -23,6 +23,7 @@ class AdminFactory extends Factory
             'password' => fake()->password(),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),
+            'status' => fake()->randomElement(['active', 'inactive']),
         ];
     }
 }

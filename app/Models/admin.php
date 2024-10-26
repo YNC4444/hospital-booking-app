@@ -19,5 +19,6 @@ class admin extends Model
         'password',
         'phone',
         'address',
+        'status',
     ];
 }
