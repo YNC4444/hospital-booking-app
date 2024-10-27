@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\User;
 use App\Models\Provider;
 use App\Models\Schedule;
+use App\Models\Appointment;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
@@ -28,7 +29,16 @@ class DatabaseSeeder extends Seeder
             // create 1 to 5 schedules for each provider
             Schedule::factory(fake()->numberBetween(1, 5))->create([
                 'provider_id' => $provider->id,
-            ]);
+            ])->each(function ($schedule) {
+                // create 1 to 3 appointments for each schedule
+                Appointment::factory(fake()->numberBetween(1, 3))->create([
+                    // links appointment to a specific schedule
+                    'schedule_id' => $schedule->id,
+                    // retrieves first record from randomly ordered list of patients
+                    // and links appointment to that patient
+                    'patient_id' => Patient::inRandomOrder()->first()->id,
+                ]);
+            });
         });
         
         admin::factory(10)->create();
