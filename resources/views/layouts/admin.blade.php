@@ -23,12 +23,8 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
-        <div class="w-full md:w-3/4 p-8">
-            <div class="bg-white shadow-md rounded p-6">
-                <h2 class="text-2xl font-bold mb-4">Welcome to the Admin Dashboard</h2>
-                <p class="text-gray-700">Manage your application settings and users from here.</p>
-            </div>
+        <div>
+          @yield('content')
         </div>
     </div>
 

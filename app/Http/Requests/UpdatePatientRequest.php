@@ -11,7 +11,7 @@ class UpdatePatientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,12 +24,13 @@ class UpdatePatientRequest extends FormRequest
         return [
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
-            'email' => 'required|email|unique:patients,email',
-            'password' => 'required|string|min:8|confirmed',
-            'phone' => 'required|string|max:15',
+            // allows email to remain unchanged if it is the same as the current email
+            'email' => 'required|email|unique:patients,email,' . $this->route('patient')->id,
+            // 'password' => 'required|string|min:8|confirmed',
+            'phone' => 'required|string|max:17',
             'address' => 'required|string|max:255',
             'emergency_contact_name' => 'required|string|max:255',
-            'emergency_contact_phone' => 'required|string|max:15',
+            'emergency_contact_phone' => 'required|string|max:17',
         ];
     }
 }
