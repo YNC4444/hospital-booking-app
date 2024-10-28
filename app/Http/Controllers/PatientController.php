@@ -62,22 +62,9 @@ class PatientController extends Controller
 
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
-        // $validated = $request->validate([
-        //     'fname' => 'required|string|max:255',
-        //     'lname' => 'required|string|max:255',
-        //     'email' => 'required|email|unique:patients,email,' . $patient->id,
-        //     'dob' => 'required|date|before:today',
-        //     'gender' => 'required|string|in:male,female',
-        //     'phone' => 'required|string|max:15',
-        //     'address' => 'required|string|max:255',
-        //     'emergency_contact_name' => 'required|string|max:255',
-        //     'emergency_contact_phone' => 'required|string|max:15',
-        // ]);
         $patient->update($request->validated());
 
-        // $patient->update($validated);
-
-        // return redirect()->route('patients.index')->with('success', 'Patient updated successfully.');
+        return redirect()->route('patients.show', $patient->id)->with('success', 'Patient updated successfully.');
     }
 
     public function trash($id) // used to be called destroy
