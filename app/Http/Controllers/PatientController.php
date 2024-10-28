@@ -81,7 +81,7 @@ class PatientController extends Controller
         $patient = Patient::withTrashed()->where('id', $id)->first();
         $patient->forceDelete();
         Session::flash('success', 'Patient deleted successfully.');
-        return redirect()->route('patients.trashed');
+        return redirect()->route('patients.index');
     }
 
     public function restore($id)
