@@ -6,6 +6,7 @@ use App\Models\provider;
 use App\Http\Requests\StoreproviderRequest;
 use App\Http\Requests\UpdateproviderRequest;
 
+use Illuminate\Support\Facades\Session;
 class ProviderController extends Controller
 {
     /**
@@ -13,7 +14,9 @@ class ProviderController extends Controller
      */
     public function index()
     {
-        //
+        return view('providers.index', [
+            'providers' => provider::all()
+        ]);
     }
 
     /**
@@ -21,7 +24,7 @@ class ProviderController extends Controller
      */
     public function create()
     {
-        //
+        return view('providers.create');
     }
 
     /**
@@ -29,7 +32,10 @@ class ProviderController extends Controller
      */
     public function store(StoreproviderRequest $request)
     {
-        //
+        provider::create($request->validated());
+
+        Session::flash('success', 'Provider created successfully.');
+        return redirect()->route('providers.index');
     }
 
     /**
@@ -37,7 +43,7 @@ class ProviderController extends Controller
      */
     public function show(provider $provider)
     {
-        //
+        return view('providers.show', compact('provider'));
     }
 
     /**
@@ -45,7 +51,7 @@ class ProviderController extends Controller
      */
     public function edit(provider $provider)
     {
-        //
+        return view('providers.edit', compact('provider'));
     }
 
     /**
@@ -53,7 +59,16 @@ class ProviderController extends Controller
      */
     public function update(UpdateproviderRequest $request, provider $provider)
     {
-        //
+        $provider->update($request->validated());
+
+        return redirect()->route('providers.show', $provider->id)->with('success', 'Provider updated successfully.');
+    }
+
+    public function trash($id)
+    {
+        provider::destroy($id);
+        Session::flash('success', 'Provider trashed successfully.');
+        return redirect()->route('providers.index');
     }
 
     /**
@@ -61,6 +76,17 @@ class ProviderController extends Controller
      */
     public function destroy(provider $provider)
     {
-        //
+        $provider = provider::withTrashed()->where('id', $provider->id)->first();
+        $provider->forceDelete();
+        Session::flash('success', 'Provider deleted successfully.');
+        return redirect()->route('providers.index');
+    }
+
+    public function restore($id)
+    {
+        $provider = provider::withTrashed()->where('id', $id)->first();
+        $provider->restore();
+        Session::flash('success', 'Provider restored successfully.');
+        return redirect()->route('providers.trashed');
     }
 }

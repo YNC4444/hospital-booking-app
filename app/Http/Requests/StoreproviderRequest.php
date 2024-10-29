@@ -6,12 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreproviderRequest extends FormRequest
 {
+    // define valid specializations & services
+    private const VALID_SPECIALIZATIONS = ['General Practitioner', 'Cardiologist', 'Dermatologist', 'Pediatrician', 'Neurologist'];
+    private const VALID_SERVICES = ['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'];
+    
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +26,18 @@ class StoreproviderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'fname' => 'required|string|max:255',
+            'lname' => 'required|string|max:255',
+            'email' => 'required|email|unique:patients,email',
+            'password' => 'required|string|min:8|confirmed',
+            'dob' => 'required|date|before:today',
+            'gender' => 'required|string|in:male,female',
+            'phone' => 'required|string|max:17',
+            'address' => 'required|string|max:255', 
+            // only allows for valid specializations and services to be entered
+            'specialization' => 'required|string|in:' . implode(',', self::VALID_SPECIALIZATIONS),
+            'services' => 'required|string|in' . implode(',', self::VALID_SERVICES),
+            'license_number' => 'required|string|regex:/^[A-Z]{2}[0-9]{6}$/',
         ];
     }
 }

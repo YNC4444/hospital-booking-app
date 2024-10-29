@@ -28,10 +28,10 @@ class StorePatientRequest extends FormRequest
             'password' => 'required|string|min:8|confirmed', 
             'dob' => 'required|date|before:today', 
             'gender' => 'required|string|in:male,female', 
-            'phone' => 'required|string|max:15', 
+            'phone' => 'required|string|max:17', 
             'address' => 'required|string|max:255', 
             'emergency_contact_name' => 'required|string|max:255', 
-            'emergency_contact_phone' => 'required|string|max:15',
+            'emergency_contact_phone' => 'required|string|max:17',
         ];
     }
 }

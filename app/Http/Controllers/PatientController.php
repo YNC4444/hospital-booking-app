@@ -49,7 +49,7 @@ class PatientController extends Controller
         return redirect()->route('patients.show', $patient->id)->with('success', 'Patient updated successfully.');
     }
 
-    public function trash($id) // used to be called destroy
+    public function trash($id) 
     {
         Patient::destroy($id);
         Session::flash('success', 'Patient trashed successfully.');
