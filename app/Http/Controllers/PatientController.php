@@ -6,16 +6,14 @@ use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Models\Patient;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+// use Illuminate\Support\Str;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class PatientController extends Controller
 {
     public function index()
     {
-        // $patients = Patient::all();
-        // return view('patients.index', compact('patients'));
         return view('patients.index', [
             'patients' => Patient::all()
         ]);
@@ -28,25 +26,9 @@ class PatientController extends Controller
 
     public function store(StorePatientRequest $request)
     {
-        // $validated = $request->validate([
-        //     'fname' => 'required|string|max:255',
-        //     'lname' => 'required|string|max:255',
-        //     'email' => 'required|email|unique:patients,email',
-        //     'password' => 'required|string|min:8|confirmed',
-        //     'dob' => 'required|date|before:today',
-        //     'gender' => 'required|string|in:male,female',
-        //     'phone' => 'required|string|max:15',
-        //     'address' => 'required|string|max:255',
-        //     'emergency_contact_name' => 'required|string|max:255',
-        //     'emergency_contact_phone' => 'required|string|max:15',
-        // ]);
-
         Patient::create($request->validated());
 
         Session::flash('success', 'Patient created successfully.');
-        // Patient::create($validated);
-
-        // return redirect()->route('patients.index')->with('success', 'Patient created successfully.');
         return redirect()->route('patients.index');
     }
 
@@ -72,8 +54,6 @@ class PatientController extends Controller
         Patient::destroy($id);
         Session::flash('success', 'Patient trashed successfully.');
         return redirect()->route('patients.index');
-        // $patient->delete();
-        // return redirect()->route('patients.index')->with('success', 'Patient deleted successfully.');
     }
 
     public function destroy($id)
