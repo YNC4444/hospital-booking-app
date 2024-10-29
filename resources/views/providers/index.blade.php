@@ -13,8 +13,8 @@
     <a href="{{ route('providers.show', $provider->id) }}" class="block p-4 bg-white shadow-md rounded-lg hover:bg-gray-100 transition duration-200">
       <h2 class="text-xl font-bold">{{ $provider->fname }} {{ $provider->lname }}</h2>
       <p class="text-gray-700">{{ $provider->specialization }}</p>
-      // convert json string to array, then implode the array to string
-      <p class="text-gray-700">Services: {{ implode(', ', json_decode($provider->services, true)) }}</p>
+      <!-- if services is an array, join array elements into a list-->
+      <p class="text-gray-700">Services: {{ is_array($provider->services) ? implode(', ', $provider->services) : 'Invalid services data' }}</p>
     </a>
     @endforeach
   </div>

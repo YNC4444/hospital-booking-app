@@ -36,7 +36,9 @@ class StoreproviderRequest extends FormRequest
             'address' => 'required|string|max:255', 
             // only allows for valid specializations and services to be entered
             'specialization' => 'required|string|in:' . implode(',', self::VALID_SPECIALIZATIONS),
-            'services' => 'required|string|in' . implode(',', self::VALID_SERVICES),
+            // ensures that at least one service is selected
+            'services' => 'required|array|min:1',
+            'services.*' => 'string|in:' . implode(',', self::VALID_SERVICES),
             'license_number' => 'required|string|regex:/^[A-Z]{2}[0-9]{6}$/',
         ];
     }

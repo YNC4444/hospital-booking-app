@@ -32,6 +32,7 @@ class ProviderController extends Controller
      */
     public function store(StoreproviderRequest $request)
     {
+        // dd($request->all());
         provider::create($request->validated());
 
         Session::flash('success', 'Provider created successfully.');
