@@ -14,7 +14,7 @@
       <h2 class="text-xl font-bold">{{ $provider->fname }} {{ $provider->lname }}</h2>
       <p class="text-gray-700">{{ $provider->specialization }}</p>
       <!-- if services is an array, join array elements into a list-->
-      <p class="text-gray-700">Services: {{ is_array($provider->services) ? implode(', ', $provider->services) : 'Invalid services data' }}</p>
+      <p class="text-gray-700">Services: {{ is_array($provider->services->pluck('name')->toArray()) ? implode(', ', $provider->services->pluck('name')->toArray()) : 'Invalid services data' }}</p>
     </a>
     @endforeach
   </div>
