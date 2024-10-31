@@ -55,7 +55,8 @@ class ProviderController extends Controller
      */
     public function edit(provider $provider)
     {
-        return view('providers.edit', compact('provider'));
+        $allServices = Service::all();
+        return view('providers.edit', compact('provider', 'allServices'));
     }
 
     /**

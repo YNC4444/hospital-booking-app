@@ -84,18 +84,6 @@
       <span class="text-red-500 text-sm">{{ $message }}</span>
       @enderror
     </div>
-    <!-- <div class="mb-4">
-      <label for="services" class="block text-gray-700 text-sm font-bold mb-2">Services</label>
-      @foreach(['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'] as $service)
-      <div class="flex items-center">
-        <input type="checkbox" name="services[]" value="{{ $service }}" {{ in_array($service, old('services', $provider->services)) ? 'checked' : '' }} class="mr-2 leading-tight">
-        <span class="text-gray-700">{{ $service }}</span>
-      </div>
-      @endforeach
-      @error('services')
-      <span class="text-red-500 text-sm">{{ $message }}</span>
-      @enderror
-    </div> -->
     <div class="mb-4">
       <label for="services" class="block text-gray-700 text-sm font-bold mb-2">Services</label>
       @foreach($allServices as $service)
