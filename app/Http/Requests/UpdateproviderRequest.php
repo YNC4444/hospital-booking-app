@@ -4,10 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateproviderRequest extends FormRequest
+class UpdateProviderRequest extends FormRequest
 {
-    // define valid specializations & services
-    private const VALID_SPECIALIZATIONS = ['General Practitioner', 'Cardiologist', 'Dermatologist', 'Pediatrician', 'Neurologist'];
+    // Define valid services
     private const VALID_SERVICES = ['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'];
 
     /**
@@ -33,8 +32,9 @@ class UpdateproviderRequest extends FormRequest
             // 'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|string|max:17',
             'address' => 'required|string|max:255',
-            // only allows for valid specializations and services to be entered
-            'services' => 'required|string|in' . implode(',', self::VALID_SERVICES),
+            // only allows for valid services to be entered
+            'services' => 'required|array|min:1',
+            'services.*' => 'string|in:' . implode(',', self::VALID_SERVICES),
         ];
     }
 }
