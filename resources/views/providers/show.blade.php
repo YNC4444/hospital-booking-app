@@ -15,7 +15,7 @@
       <h2 class="text-xl font-bold">Professional Information</h2>
       <p><strong>Specialization:</strong> {{ $provider->specialization }}</p>
       <!-- join the elements of the array into a string -->
-      <p><strong>Services offered:</strong> {{ implode(', ', $provider->services) }}</p>
+      <p><strong>Services offered:</strong> {{ implode(', ', $provider->services->pluck('name')->toArray()) }}</p>
     </div>
     <div class="flex items-center justify-between">
       <a href="{{ route('providers.edit', $provider->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

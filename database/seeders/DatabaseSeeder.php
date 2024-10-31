@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Provider;
 use App\Models\Schedule;
 use App\Models\Appointment;
+use App\Models\Service;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
@@ -42,5 +43,11 @@ class DatabaseSeeder extends Seeder
         });
         
         admin::factory(10)->create();
+    
+        $services = ['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'];
+        foreach($services as $service) {
+            // creates a new service if it doesn't exist
+            Service::firstOrCreate(['name' => $service]);
+        }
     }
 }

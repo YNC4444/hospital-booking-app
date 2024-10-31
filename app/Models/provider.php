@@ -24,30 +24,35 @@ class provider extends Model
         'phone',
         'address',
         'specialization',
-        'services',
+        // 'services', add relationship to the new services model
         'license_number',
         'employment_date',
         'status',
     ];
 
+    //many to many relationship with services
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'provider_service');
+    }
     // automatically cast services attribute to array when retrieved
-    protected $casts = [
-        'services' => 'array',
-    ];
+    // protected $casts = [
+    //     'services' => 'array',
+    // ];
 
-    // converts services array to json string before saving
-    public function setServicesAttribute($value)
-    {
-        if (is_array($value)) {
-            $this->attributes['services'] = json_encode($value);
-        } else {
-            $this->attributes['services'] = $value;
-        }
-    }
+    // // converts services array to json string before saving
+    // public function setServicesAttribute($value)
+    // {
+    //     if (is_array($value)) {
+    //         $this->attributes['services'] = json_encode($value);
+    //     } else {
+    //         $this->attributes['services'] = $value;
+    //     }
+    // }
 
-    // converts services json string to array when retrieved
-    public function getServicesAttribute($value)
-    {
-        return json_decode($value, true);
-    }
+    // // converts services json string to array when retrieved
+    // public function getServicesAttribute($value)
+    // {
+    //     return json_decode($value, true);
+    // }
 }

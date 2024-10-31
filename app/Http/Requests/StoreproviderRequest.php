@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Service;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreproviderRequest extends FormRequest
 {
     // define valid specializations & services
     private const VALID_SPECIALIZATIONS = ['General Practitioner', 'Cardiologist', 'Dermatologist', 'Pediatrician', 'Neurologist'];
-    private const VALID_SERVICES = ['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'];
+    // private const VALID_SERVICES = ['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'];
     
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +26,8 @@ class StoreproviderRequest extends FormRequest
      */
     public function rules(): array
     {
+        $validServiceIds = Service::pluck('id')->toArray();
+
         return [
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
@@ -38,7 +41,7 @@ class StoreproviderRequest extends FormRequest
             'specialization' => 'required|string|in:' . implode(',', self::VALID_SPECIALIZATIONS),
             // ensures that at least one service is selected
             'services' => 'required|array|min:1',
-            'services.*' => 'string|in:' . implode(',', self::VALID_SERVICES),
+            'services.*' => 'integer|in:' . implode(',', $validServiceIds),
             'license_number' => 'required|string|regex:/^[A-Z]{2}[0-9]{6}$/',
         ];
     }

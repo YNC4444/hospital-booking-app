@@ -27,7 +27,7 @@ class ProviderFactory extends Factory
             'address' => fake()->address(),
             'specialization' => fake()->randomElement(['General Practitioner', 'Cardiologist', 'Dermatologist', 'Pediatrician', 'Neurologist']),
             // stores an array of services provided by the provider, in json string format
-            'services' => json_encode(fake()->randomElements(['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'], fake()->numberBetween(1, 5))),
+            // 'services' => json_encode(fake()->randomElements(['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'], fake()->numberBetween(1, 5))),
             // Example license number: AB123456
             'license_number' => fake()->regexify('[A-Z]{2}[0-9]{6}'),
             'employment_date' => fake()->date(),

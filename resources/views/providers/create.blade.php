@@ -95,16 +95,17 @@
     </div>
     <div class="mb-4">
       <label for="services" class="block text-gray-700 text-sm font-bold mb-2">Services</label>
-      @foreach(['Consultation', 'Diagnosis', 'Treatment', 'Prescription', 'Referral'] as $service)
+      @foreach($allServices as $service)
       <div class="flex items-center">
-        <input type="checkbox" name="services[]" value="{{ $service }}" {{ in_array($service, old('services', [])) ? 'checked' : '' }} class="mr-2 leading-tight">
-        <span class="text-gray-700">{{ $service }}</span>
+        <input type="checkbox" name="services[]" value="{{ $service->id }}" {{ in_array($service->id, old('services', [])) ? 'checked' : '' }} class="mr-2 leading-tight">
+        <span class="text-gray-700">{{ $service->name }}</span>
       </div>
       @endforeach
       @error('services')
       <span class="text-red-500 text-sm">{{ $message }}</span>
       @enderror
     </div>
+
     <div class="mb-4">
       <label for="license_number" class="block text-gray-700 text-sm font-bold mb-2">License Number</label>
       <input type="text" name="license_number" id="license_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ old('license_number') }}" required>

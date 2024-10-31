@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\provider;
 use App\Http\Requests\StoreproviderRequest;
 use App\Http\Requests\UpdateproviderRequest;
-
+use App\Models\Service;
 use Illuminate\Support\Facades\Session;
 class ProviderController extends Controller
 {
@@ -24,7 +24,8 @@ class ProviderController extends Controller
      */
     public function create()
     {
-        return view('providers.create');
+        $allServices = Service::all();
+        return view('providers.create', compact('allServices'));
     }
 
     /**
@@ -33,8 +34,10 @@ class ProviderController extends Controller
     public function store(StoreproviderRequest $request)
     {
         // dd($request->all());
-        provider::create($request->validated());
+        $provider = provider::create($request->validated());
 
+        // sync services
+        $provider->services()->sync($request->input('services', []));
         Session::flash('success', 'Provider created successfully.');
         return redirect()->route('providers.index');
     }
@@ -62,6 +65,8 @@ class ProviderController extends Controller
     {
         $provider->update($request->validated());
 
+        // sync services
+        $provider->services()->sync($request->input('services', []));
         return redirect()->route('providers.show', $provider->id)->with('success', 'Provider updated successfully.');
     }
 
