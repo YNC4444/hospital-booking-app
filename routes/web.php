@@ -3,6 +3,7 @@
 // use App\Models\Patient;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -41,5 +42,6 @@ Route::get(
 
 Route::resource('patients', PatientController::class);
 Route::resource('providers', ProviderController::class);
+Route::resource('services', ServiceController::class);
 
 

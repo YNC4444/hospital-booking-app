@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
+use Illuminate\Support\Facades\Session;
 
 class ServiceController extends Controller
 {
@@ -13,7 +14,12 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = Service::all();
+        // dd($services);
+        // return view('services.index', [
+        //     'services' => Service::all()
+        // ]);
+        return view('services.index', compact('services'));
     }
 
     /**
@@ -21,7 +27,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('services.create');
     }
 
     /**
@@ -29,7 +35,10 @@ class ServiceController extends Controller
      */
     public function store(StoreServiceRequest $request)
     {
-        //
+        Service::create($request->validated());
+
+        Session::flash('success', 'Service created successfully');
+        return redirect()->route('services.index');
     }
 
     /**
@@ -37,7 +46,7 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        //
+        return view('services.show', compact('service'));
     }
 
     /**
@@ -45,7 +54,7 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        return view('services.edit', compact('service'));
     }
 
     /**
@@ -53,7 +62,10 @@ class ServiceController extends Controller
      */
     public function update(UpdateServiceRequest $request, Service $service)
     {
-        //
+        $service->update($request->validated());
+
+        Session::flash('success', 'Service updated successfully');
+        return redirect()->route('services.show', $service->id)->with('success', 'Service updated successfully');
     }
 
     /**
@@ -61,6 +73,8 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+        $service->forceDelete();
+        Session::flash('success', 'Service deleted successfully');
+        return redirect()->route('services.index');
     }
 }
