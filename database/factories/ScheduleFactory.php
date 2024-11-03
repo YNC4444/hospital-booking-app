@@ -45,7 +45,7 @@ class ScheduleFactory extends Factory
             'date' => $date,
             'start_time' => $start_time,
             'end_time' => $end_time,
-            'status' => fake()->randomElement(['available', 'booked']),
+            'status' => $this->faker->randomElement(['available', 'booked']),
         ];
     }
 
@@ -70,14 +70,15 @@ class ScheduleFactory extends Factory
             });
             $end_time = $this->faker->randomElement($filteredEndTimes);
 
-            $schedules[] = [
+            $schedule = new Schedule([
                 'provider_id' => $provider->id,
                 'date' => $startDate->format('Y-m-d'),
                 'start_time' => $start_time,
                 'end_time' => $end_time,
-                'status' => fake()->randomElement(['available', 'booked']),
-            ];
+                'status' => $this->faker->randomElement(['available', 'booked']),
+            ]);
 
+            $schedules[] = $schedule;
             // Log::info("Generated schedule for {$startDate->format('Y-m-d')}");
 
             $startDate->modify('+1 day');

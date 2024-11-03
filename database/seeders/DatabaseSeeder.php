@@ -52,7 +52,16 @@ class DatabaseSeeder extends Seeder
             
             // generate schedules for the next month
             $nextMonthSchedules = Schedule::factory()->generateNextMonthSchedules($provider);
-            Schedule::insert($nextMonthSchedules);
+
+            foreach($nextMonthSchedules as $schedule) {
+                $schedule->save();
+
+                // Create 1 to 3 appointments for each schedule
+                Appointment::factory((fake()->numberBetween(1, 3)))->create([
+                    'schedule_id' => $schedule->id,
+                    'patient_id' => Patient::inRandomOrder()->first()->id,
+                ]);
+            }
         });
 
         // Create admin users
