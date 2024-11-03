@@ -6,7 +6,7 @@ use App\Models\Appointment;
 use App\Models\Schedule;
 use App\Models\Patient;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Appointment>
@@ -26,11 +26,11 @@ class AppointmentFactory extends Factory
         // Generate a list of possible start times within the schedule's available time
         $startTimes = $this->generateCleanStartTimes($schedule->start_time, $schedule->end_time, $duration);
 
-        Log::info('Generated clean start times: ', $startTimes);
+        // Log::info('Generated clean start times: ', $startTimes);
         // Randomly select a start time from the list
         $start_time = $this->faker->randomElement($startTimes);
 
-        Log::info("Selected start time: {$start_time}");
+        // Log::info("Selected start time: {$start_time}");
 
         // Calculate the end time
         $end_time = date('H:i', strtotime("+{$duration} minutes", strtotime($start_time)));

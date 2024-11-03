@@ -49,6 +49,10 @@ class DatabaseSeeder extends Seeder
                     'patient_id' => Patient::inRandomOrder()->first()->id,
                 ]);
             });
+            
+            // generate schedules for the next month
+            $nextMonthSchedules = Schedule::factory()->generateNextMonthSchedules($provider);
+            Schedule::insert($nextMonthSchedules);
         });
 
         // Create admin users

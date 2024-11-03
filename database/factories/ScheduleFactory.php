@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Schedule;
 use App\Models\Provider;
+// use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -46,5 +47,42 @@ class ScheduleFactory extends Factory
             'end_time' => $end_time,
             'status' => fake()->randomElement(['available', 'booked']),
         ];
+    }
+
+    public function generateNextMonthSchedules($provider)
+    {
+        $validStartTimes = ['07:00', '13:00', '15:00'];
+        $validEndTimes = ['13:00', '15:00', '20:00'];
+
+        $schedules = [];
+
+        // generate schedules from today to one month from today
+        $startDate = new \DateTime();
+        $endDate = (clone $startDate)->modify('+1 month');
+
+        // Log::info("Generating schedules from {$startDate->format('Y-m-d')} to {$endDate->format('Y-m-d')}");
+
+        while ($startDate <= $endDate) {
+            $start_time = $this->faker->randomElement($validStartTimes);
+
+            $filteredEndTimes = array_filter($validEndTimes, function ($end_time) use ($start_time) {
+                return strtotime($end_time) - strtotime($start_time) >= 5 * 60 * 60;
+            });
+            $end_time = $this->faker->randomElement($filteredEndTimes);
+
+            $schedules[] = [
+                'provider_id' => $provider->id,
+                'date' => $startDate->format('Y-m-d'),
+                'start_time' => $start_time,
+                'end_time' => $end_time,
+                'status' => fake()->randomElement(['available', 'booked']),
+            ];
+
+            // Log::info("Generated schedule for {$startDate->format('Y-m-d')}");
+
+            $startDate->modify('+1 day');
+        }
+
+        return $schedules;
     }
 }
