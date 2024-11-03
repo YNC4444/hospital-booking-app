@@ -33,12 +33,15 @@ class ScheduleFactory extends Factory
         });
 
         $end_time = $this->faker->randomElement($filteredEndTimes);
+        
+        // generate a random date between +/- 1 year from today
+        $date = $this->faker->dateTimeBetween('-1 year', '+1 year')->format('Y-m-d');
 
         return [
             // Create a new provider if not provided
             'provider_id' => Provider::factory(), 
             // 'day_of_week' => fake()->randomElement(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),
-            'date' => $this->faker->date(),
+            'date' => $date,
             'start_time' => $start_time,
             'end_time' => $end_time,
             'status' => fake()->randomElement(['available', 'booked']),
