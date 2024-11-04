@@ -19,4 +19,9 @@ class Schedule extends Model
         'start_time',
         'end_time',
     ];
+
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
 }

@@ -35,24 +35,10 @@ class provider extends Model
     {
         return $this->belongsToMany(Service::class, 'provider_service');
     }
-    // automatically cast services attribute to array when retrieved
-    // protected $casts = [
-    //     'services' => 'array',
-    // ];
 
-    // // converts services array to json string before saving
-    // public function setServicesAttribute($value)
-    // {
-    //     if (is_array($value)) {
-    //         $this->attributes['services'] = json_encode($value);
-    //     } else {
-    //         $this->attributes['services'] = $value;
-    //     }
-    // }
-
-    // // converts services json string to array when retrieved
-    // public function getServicesAttribute($value)
-    // {
-    //     return json_decode($value, true);
-    // }
+    //one to many relationship with schedules
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }
