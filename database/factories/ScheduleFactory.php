@@ -45,7 +45,6 @@ class ScheduleFactory extends Factory
             'date' => $date,
             'start_time' => $start_time,
             'end_time' => $end_time,
-            'status' => $this->faker->randomElement(['available', 'booked']),
         ];
     }
 
@@ -75,7 +74,6 @@ class ScheduleFactory extends Factory
                 'date' => $startDate->format('Y-m-d'),
                 'start_time' => $start_time,
                 'end_time' => $end_time,
-                'status' => $this->faker->randomElement(['available', 'booked']),
             ]);
 
             $schedules[] = $schedule;
