@@ -18,5 +18,6 @@ class Appointment extends Model
         'patient_id',
         'start_time',
         'end_time',
+        'status',
     ];
 }

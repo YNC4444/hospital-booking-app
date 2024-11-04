@@ -32,6 +32,8 @@ class AppointmentFactory extends Factory
 
         // Log::info("Selected start time: {$start_time}");
 
+        $status = $this->faker->randomElement(['available', 'booked']);
+
         // Calculate the end time
         $end_time = date('H:i', strtotime("+{$duration} minutes", strtotime($start_time)));
 
@@ -41,6 +43,7 @@ class AppointmentFactory extends Factory
             'patient_id' => Patient::factory(), 
             'start_time' => $start_time,
             'end_time' => $end_time,
+            'status' => $status,
         ];
     }
 
