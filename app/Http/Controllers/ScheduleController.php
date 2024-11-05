@@ -5,18 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\Schedule;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Models\Provider;
 
 class ScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    // Request used because I need to access query parameters
+    public function index(Request $request)
     {
-        // 
-        $schedules = Schedule::with('provider')->get();
-        return view('schedules.index', compact('schedules'));
+        // query schedules with optional filtering
+        $query = Schedule::with('provider');
+
+        // check if request has provider and provider is not empty
+        if ($request->has('provider') && $request->provider) {
+            $query->where('provider_id', $request->provider);
+        }
+
+        if ($request->has('date') && $request->date) {
+            $query->where('date', $request->date);
+        }
+
+        if ($request->has('status') && $request->status) {
+            $query->where('status', $request->status);
+        }
+
+        $schedules = $query->get();
+        
+        // get all providers to populate the filter dropdown
+        $providers = Provider::all();
+
+        // $schedules = Schedule::with('provider')->get();
+        return view('schedules.index', compact('schedules', 'providers'));
     }
 
     /**
