@@ -20,4 +20,16 @@ class Appointment extends Model
         'end_time',
         'status',
     ];
+
+    // each appointment belongs to only one schedule
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
+    // each appointment belongs to only one patient
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
 }

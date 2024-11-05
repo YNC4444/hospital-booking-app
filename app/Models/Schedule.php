@@ -20,8 +20,15 @@ class Schedule extends Model
         'end_time',
     ];
 
+    // one schedule only has one provider
     public function provider()
     {
         return $this->belongsTo(Provider::class);
+    }
+
+    // each schedule has many appointments
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
     }
 }

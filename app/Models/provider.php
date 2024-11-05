@@ -36,7 +36,7 @@ class provider extends Model
         return $this->belongsToMany(Service::class, 'provider_service');
     }
 
-    //one to many relationship with schedules
+    //each provider has many schedules
     public function schedules()
     {
         return $this->hasMany(Schedule::class);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Schedule;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Provider;
@@ -66,6 +67,9 @@ class ScheduleController extends Controller
      */
     public function show(Schedule $schedule)
     {
+        $appointments = Appointment::all()->where('schedule_id', $schedule->id);
+        // fetch schedule with provider and appointments
+        $schedule->load('provider', 'appointments.patient');
         return view('schedules.show', compact('schedule')); 
     }
 
