@@ -13,7 +13,6 @@
         <h2 class="text-xl font-bold">Provider: Dr.{{ $schedule->provider->lname }}</h2>
         <p class="text-gray-700">Date: {{ $schedule->date }}</p>
         <p class="text-gray-700">Time: {{ $schedule->start_time }} - {{ $schedule->end_time }}</p>
-        <p class="text-gray-700">Status: {{ $schedule->status }}</p>
     </div>
 
     <div class="bg-white shadow-md rounded-lg p-4">
