@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\provider;
+use App\Models\Provider;
 use App\Http\Requests\StoreproviderRequest;
 use App\Http\Requests\UpdateproviderRequest;
 use App\Models\Service;
@@ -15,7 +15,7 @@ class ProviderController extends Controller
     public function index()
     {
         return view('providers.index', [
-            'providers' => provider::all()
+            'providers' => Provider::all()
         ]);
     }
 
