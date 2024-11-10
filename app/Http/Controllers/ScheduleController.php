@@ -9,6 +9,7 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Provider;
+use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
 {
@@ -48,15 +49,25 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        return view('schedules.create');
+        $providers = Provider::all();
+        return view('schedules.create', compact('providers'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreScheduleRequest $request)
-    {
-        Schedule::create($request->validated());
+    {   
+        Log::info($request->all());
+        // set date default value to be today
+        $date = $request->input('date', now()->toDateString());
+
+        Schedule::create([
+            'date' => $date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'provider_id' => $request->provider_id,
+        ]);
 
         Session::flash('success', 'Schedule created successfully.');
         return redirect()->route('schedules.index');

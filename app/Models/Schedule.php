@@ -15,7 +15,7 @@ class Schedule extends Model
 
     protected $fillable = [
         'provider_id',
-        'day_of_week',
+        'date',
         'start_time',
         'end_time',
     ];
