@@ -89,7 +89,8 @@ class ScheduleController extends Controller
      */
     public function edit(Schedule $schedule)
     {
-        return view('schedules.edit', compact('schedule'));
+        $providers = Provider::all();
+        return view('schedules.edit', compact('schedule', 'providers'));
     }
 
     /**
@@ -98,8 +99,8 @@ class ScheduleController extends Controller
     public function update(UpdateScheduleRequest $request, Schedule $schedule)
     {
         $schedule->update($request->validated());
-
-        return redirect()->route('schedules.show', $schedule->id)->with('success', 'Schedule updated successfully.');
+        Session::flash('success', 'Schedule updated successfully.');
+        return redirect()->route('schedules.show', $schedule->id);
     }
 
     public function trash($id)

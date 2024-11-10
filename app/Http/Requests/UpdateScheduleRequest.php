@@ -22,10 +22,25 @@ class UpdateScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'provider_id' => 'required|integer|exists:providers,id',
+            // require the date of new schedules to on/after today
+            'date' => 'required|date|after_or_equal:today',
+            'start_time' => 'required|in:07:00,13:00,15:00',
+            'end_time' => 'required|in:13:00,15:00,20:00',
+            'provider_id' => 'required|exists:providers,id',
         ];
+    }
+
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            // convert start and end time to timestamps
+            $start_time = strtotime($this->input('start_time'));
+            $end_time = strtotime($this->input('end_time'));
+
+            if ($end_time - $start_time < 5 * 60 * 60) {
+                $validator->errors()->add('end_time', 'The end time must be at least 5 hours after start time.');
+            }
+        });
     }
 }
