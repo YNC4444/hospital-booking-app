@@ -58,7 +58,7 @@ class ScheduleController extends Controller
      */
     public function store(StoreScheduleRequest $request)
     {   
-        Log::info($request->all());
+        // Log::info($request->all());
         // set date default value to be today
         $date = $request->input('date', now()->toDateString());
 

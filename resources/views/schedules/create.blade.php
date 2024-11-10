@@ -20,7 +20,8 @@
     @csrf
     <div class="mb-4">
       <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date</label>
-      <input type="date" name="date" id="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ now()->toDateString() }}" required>
+      <!-- select date with only future dates possible -->
+      <input type="date" name="date" id="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ now()->toDateString() }}" min="{{ now()->toDateString() }}" required>
       @error('date')
       <span class="text-red-500 text-sm">{{ $message }}</span>
       @enderror

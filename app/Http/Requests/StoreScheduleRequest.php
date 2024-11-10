@@ -22,7 +22,8 @@ class StoreScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'required|date',
+            // require the date of new schedules to on/after today
+            'date' => 'required|date|after_or_equal:today',
             'start_time' => 'required|in:07:00,13:00,15:00',
             'end_time' => 'required|in:13:00,15:00,20:00',
             'provider_id' => 'required|exists:providers,id',
