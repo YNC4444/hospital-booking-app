@@ -97,7 +97,8 @@ class ScheduleController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateScheduleRequest $request, Schedule $schedule)
-    {
+    { 
+        // Log::info('form data', $request->all());
         $schedule->update($request->validated());
         Session::flash('success', 'Schedule updated successfully.');
         return redirect()->route('schedules.show', $schedule->id);
