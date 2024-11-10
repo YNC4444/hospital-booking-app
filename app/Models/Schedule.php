@@ -20,6 +20,17 @@ class Schedule extends Model
         'end_time',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($schedule) {
+            $schedule->appointments()->each(function ($appointment) {
+                $appointment->delete();
+            });
+        });
+    }
+
     // one schedule only has one provider
     public function provider()
     {

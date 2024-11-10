@@ -58,16 +58,10 @@ class ScheduleController extends Controller
      */
     public function store(StoreScheduleRequest $request)
     {   
-        // Log::info($request->all());
-        // set date default value to be today
-        $date = $request->input('date', now()->toDateString());
+        $data = $request->validated();
+        $data['date'] = $request->input('date', now()->toDateString());
 
-        Schedule::create([
-            'date' => $date,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'provider_id' => $request->provider_id,
-        ]);
+        Schedule::create($data);
 
         Session::flash('success', 'Schedule created successfully.');
         return redirect()->route('schedules.index');
