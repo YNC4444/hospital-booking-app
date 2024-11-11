@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
+use Illuminate\Support\Facades\Session;
 
 class AppointmentController extends Controller
 {
@@ -13,7 +14,9 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        return view('appointments.index', [
+            'appointments' => Appointment::all(),
+        ]);
     }
 
     /**
@@ -21,7 +24,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('appointments.create');
     }
 
     /**
@@ -29,7 +32,10 @@ class AppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request)
     {
-        //
+        Appointment::create($request->validated());
+
+        Session::flash('success', 'Appointment created successfully!');
+        return redirect()->route('appointments.index');
     }
 
     /**
@@ -37,7 +43,7 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        //
+        return view('appointments.show', compact('appointment'));
     }
 
     /**
@@ -45,7 +51,7 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        //
+        return view('appointments.edit', compact('appointment'));
     }
 
     /**
@@ -53,14 +59,35 @@ class AppointmentController extends Controller
      */
     public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
-        //
+        $appointment->update($request->validated());
+
+        Session::flash('success', 'Appointment updated successfully!');
+        return redirect()->route('appointments.show', $appointment->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Appointment $appointment)
+    public function trash($id)
     {
-        //
+        Appointment::destroy($id);
+        Session::flash('success', 'Appointment trashed successfully.');
+        return redirect()->route('appointments.index');
+    }
+
+    public function destroy($id)
+    {
+        $appointment = Appointment::withTrashed()->where('id', $id)->first();
+        $appointment->forceDelete();
+        Session::flash('success', 'Appointment deleted successfully.');
+        return redirect()->route('appointments.index');
+    }
+
+    public function restore($id)
+    {
+        $appointment = Appointment::withTrashed()->where('id', $id)->first();
+        $appointment->restore();
+        Session::flash('success', 'Appointment restored successfully.');
+        return redirect()->route('appointments.trashed');
     }
 }

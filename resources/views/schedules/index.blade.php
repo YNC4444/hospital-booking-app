@@ -26,14 +26,6 @@
         <label for="date" class="block text-gray-700">Date</label>
         <input type="date" name="date" id="date" class="form-input" value="{{ request('date') }}">
       </div>
-      <div>
-        <label for="status" class="block text-gray-700">Status</label>
-        <select name="status" id="status" class="form-select">
-          <option value="">All Statuses</option>
-          <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>Available</option>
-          <!-- <option value="booked" {{ request('status') == 'booked' ? 'selected' : '' }}>Booked</option> -->
-        </select>
-      </div>
       <div class="flex items-end">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
           Filter
