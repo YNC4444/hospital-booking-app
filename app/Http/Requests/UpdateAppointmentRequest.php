@@ -16,6 +16,8 @@ class UpdateAppointmentRequest extends FormRequest
     return [
       'schedule_id' => 'required|exists:schedules,id',
       'patient_id' => 'required|exists:patients,id',
+      'provider_id' => 'required|exists:providers,id',
+      'date' => 'required|date|after_or_equal:today',
       'start_time' => [
         'required',
         'date_format:H:i',

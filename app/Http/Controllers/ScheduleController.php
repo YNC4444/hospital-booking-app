@@ -53,6 +53,58 @@ class ScheduleController extends Controller
         return view('schedules.create', compact('providers'));
     }
 
+    public function getSchedulesByDate(Request $request)
+    {
+        $date = $request->query('date');
+
+        $schedules = Schedule::where('date', $date)->with('provider')->get();
+
+        return response()->json([
+            'schedules' => $schedules,
+        ]);
+    }
+
+    public function getAvailableTimes(Schedule $schedule)
+    {
+        $startTimes = $this->generateCleanStartTimes($schedule->start_time, $schedule->end_time);
+        $endTimes = $this->generateCleanEndTimes($schedule->start_time, $schedule->end_time);
+
+        return response()->json([
+            'start_times' => $startTimes,
+            'end_times' => $endTimes,
+        ]);
+    }
+
+    protected function generateCleanStartTimes($start_time, $end_time)
+    {
+        $start = strtotime($start_time);
+        $end = strtotime($end_time);
+        $times = [];
+
+        while ($start < $end) {
+            $times[] = date('H:i', $start);
+            $start += 15 * 60; // Increment by 15 minutes
+        }
+
+        return $times;
+    }
+
+    protected function generateCleanEndTimes($start_time, $end_time)
+    {
+        $start = strtotime($start_time);
+        $end = strtotime($end_time);
+        $times = [];
+
+        while ($start < $end) {
+            $start += 15 * 60; // Increment by 15 minutes
+            if ($start < $end) {
+                $times[] = date('H:i', $start);
+            }
+        }
+
+        return $times;
+    }
+
     /**
      * Store a newly created resource in storage.
      */

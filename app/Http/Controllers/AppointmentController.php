@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Patient;
 use App\Models\Provider;
+use App\Models\Schedule;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use Illuminate\Support\Facades\Session;
@@ -26,7 +28,10 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        return view('appointments.create');
+        $patients = Patient::all();
+        $providers = Provider::all();
+        $schedules = Schedule::all();
+        return view('appointments.create', compact('patients', 'providers', 'schedules'));
     }
 
     /**
@@ -34,7 +39,16 @@ class AppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request)
     {
-        Appointment::create($request->validated());
+        $data = $request->validated();
+        
+        // get provider_id from schedule_id
+        $schedule = Schedule::findorFail($data['schedule_id']);
+        $data['provider_id'] = $schedule->provider_id;
+
+        // set status to booked
+        $data['status'] = 'booked';
+
+        Appointment::create($data);
 
         Session::flash('success', 'Appointment created successfully!');
         return redirect()->route('appointments.index');

@@ -16,7 +16,9 @@ class StoreAppointmentRequest extends FormRequest
         return [
             'schedule_id' => 'required|exists:schedules,id',
             'patient_id' => 'required|exists:patients,id',
-            'provider_id' => 'required|exists:providers,id',
+            // provider_id not included here becuase it will be fetched from schedule_id
+            // 'provider_id' => 'required|exists:providers,id',
+            // new appointments can only be booked on/after the date it is booked
             'date' => 'required|date|after_or_equal:today',
             'start_time' => [
                 'required',
@@ -38,7 +40,8 @@ class StoreAppointmentRequest extends FormRequest
                     }
                 },
             ],
-            'status' => 'required|in:available,booked',
+            // automatically set to "booked" in controller
+            // 'status' => 'required|in:available,booked',
         ];
     }
 

@@ -77,6 +77,14 @@ Route::get(
   [AppointmentController::class, 'trash'])
   ->name('appointments.restore');
 
+Route::get(
+  '/api/schedules', 
+  [ScheduleController::class, 'getSchedulesByDate']);
+
+Route::get(
+  '/api/schedules/{schedule}/times', 
+  [ScheduleController::class, 'getAvailableTimes']);
+
 Route::resource('patients', PatientController::class);
 Route::resource('providers', ProviderController::class);
 Route::resource('services', ServiceController::class);
