@@ -16,6 +16,8 @@ class Appointment extends Model
     protected $fillable = [
         'schedule_id',
         'patient_id',
+        'provider_id',
+        'date',
         'start_time',
         'end_time',
         'status',
@@ -31,5 +33,11 @@ class Appointment extends Model
     public function patient()
     {
         return $this->belongsTo(Patient::class);
+    }
+
+    // each appointment belongs to only one provider
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
     }
 }

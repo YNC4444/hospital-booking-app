@@ -41,6 +41,8 @@ class AppointmentFactory extends Factory
             'schedule_id' => $schedule->id,
             // Create a new patient if not provided
             'patient_id' => Patient::factory(), 
+            'provider_id' => $schedule->provider_id,
+            'date' => $schedule->date,
             'start_time' => $start_time,
             'end_time' => $end_time,
             'status' => $status,
