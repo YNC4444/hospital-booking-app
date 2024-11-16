@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Provider;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use Illuminate\Support\Facades\Session;
@@ -14,9 +15,10 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return view('appointments.index', [
-            'appointments' => Appointment::all(),
-        ]);
+        $appointments = Appointment::all();
+        $providers = Provider::all();
+
+        return view('appointments.index', compact('appointments', 'providers'));
     }
 
     /**
