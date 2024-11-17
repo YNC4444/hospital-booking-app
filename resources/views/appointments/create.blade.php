@@ -80,9 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const startTimeSelect = document.getElementById('start_time');
     const endTimeSelect = document.getElementById('end_time');
 
-    dateInput.addEventListener('change', function () {
-        const date = dateInput.value;
-
+    function loadSchedules(date) {
         if (date) {
             fetch(`/api/schedules?date=${date}`)
                 .then(response => response.json())
@@ -92,20 +90,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     startTimeSelect.innerHTML = '';
                     endTimeSelect.innerHTML = '';
 
-                    // Populate schedule options
+                    // Populate schedule options with provider information
                     data.schedules.forEach(schedule => {
                         const option = document.createElement('option');
                         option.value = schedule.id;
                         option.textContent = `Provider: Dr. ${schedule.provider.lname}, Start: ${schedule.start_time}, End: ${schedule.end_time}`;
                         scheduleSelect.appendChild(option);
                     });
+
+                    // Trigger change event on the schedule dropdown to load start and end times for the first schedule
+                    if (scheduleSelect.options.length > 0) {
+                        scheduleSelect.selectedIndex = 0;
+                        scheduleSelect.dispatchEvent(new Event('change'));
+                    }
                 });
         }
-    });
+    }
 
-    scheduleSelect.addEventListener('change', function () {
-        const scheduleId = scheduleSelect.value;
-
+    function loadTimes(scheduleId) {
         if (scheduleId) {
             fetch(`/api/schedules/${scheduleId}/times`)
                 .then(response => response.json())
@@ -131,7 +133,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
         }
+    }
+
+    dateInput.addEventListener('change', function () {
+        const date = dateInput.value;
+        loadSchedules(date);
     });
+
+    scheduleSelect.addEventListener('change', function () {
+        const scheduleId = scheduleSelect.value;
+        loadTimes(scheduleId);
+    });
+
+    // Trigger the change event on page load to load schedules for the default date
+    dateInput.dispatchEvent(new Event('change'));
 });
 </script>
 @endsection
