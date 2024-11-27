@@ -8,7 +8,7 @@ use App\Models\Service;
 use App\Models\Schedule;
 use App\Models\Appointment;
 use App\Models\Patient;
-use App\Models\Admin;
+use App\Models\admin;
 use Illuminate\Support\Facades\Log;
 
 class DatabaseSeeder extends Seeder
