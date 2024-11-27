@@ -9,6 +9,7 @@ use App\Models\Schedule;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Log;
 
 class DatabaseSeeder extends Seeder
 {
@@ -44,10 +45,30 @@ class DatabaseSeeder extends Seeder
                 Appointment::factory(fake()->numberBetween(1, 3))->create([
                     // Link appointment to a specific schedule
                     'schedule_id' => $schedule->id,
+                    'provider_id' => $schedule->provider_id,
+                    'date' => $schedule->date,
                     // Retrieve first record from randomly ordered list of patients
                     // and link appointment to that patient
-                    'patient_id' => Patient::inRandomOrder()->first()->id,
-                ]);
+                    // 'patient_id' => Patient::inRandomOrder()->first()->id,
+                ])->each(function ($appointment) {
+                    // Assign a random service to each appointment
+                    // $appointment->services()->sync(Service::inRandomOrder()->first()->id);
+                    if ($appointment->status === 'booked') {
+                        // Assign a random patient to each booked appointment
+                        $appointment->patient_id = Patient::inRandomOrder()->first()->id;
+                    } else {
+                        $appointment->patient_id = null;
+                    }
+
+                    // Debugging: Log the status and patient_id after setting
+                    // Log::info('After setting patient_id', [
+                    //   'appointment_id' => $appointment->id,
+                    //   'status' => $appointment->status,
+                    //   'patient_id' => $appointment->patient_id,
+                    // ]);
+
+                    $appointment->save();
+                });
             });
             
             // generate schedules for the next month

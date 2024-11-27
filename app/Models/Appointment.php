@@ -23,6 +23,17 @@ class Appointment extends Model
         'status',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($appointment) {
+            if ($appointment->status === 'available') {
+                $appointment->patient_id = null;
+            }
+        });
+    }
+
     // each appointment belongs to only one schedule
     public function schedule()
     {

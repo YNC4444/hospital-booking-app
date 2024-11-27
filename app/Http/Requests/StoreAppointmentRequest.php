@@ -15,7 +15,7 @@ class StoreAppointmentRequest extends FormRequest
     {
         return [
             'schedule_id' => 'required|exists:schedules,id',
-            'patient_id' => 'required|exists:patients,id',
+            'patient_id' => 'nullable|exists:patients,id',
             // provider_id not included here becuase it will be fetched from schedule_id
             // 'provider_id' => 'required|exists:providers,id',
             // new appointments can only be booked on/after the date it is booked
@@ -43,6 +43,22 @@ class StoreAppointmentRequest extends FormRequest
             // automatically set to "booked" in controller
             // 'status' => 'required|in:available,booked',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validation){
+            $status = $this->input('status');
+            $patientId = $this->input('patient_id');
+
+            if ($status === 'booked' && !$patientId) {
+                $validation->errors()->add('patient_id', 'The patient field is required when status is booked.');
+            }
+
+            if ($status === 'available' && $patientId) {
+                $validation->errors()->add('patient_id', 'The patient field must be empty when status is available.');
+            }
+        });
     }
 
     protected function isCleanStartTime($time)

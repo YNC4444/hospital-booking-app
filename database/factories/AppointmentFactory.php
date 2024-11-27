@@ -6,6 +6,8 @@ use App\Models\Appointment;
 use App\Models\Schedule;
 use App\Models\Patient;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Log;
+
 // use Illuminate\Support\Facades\Log;
 
 /**
@@ -37,10 +39,18 @@ class AppointmentFactory extends Factory
         // Calculate the end time
         $end_time = date('H:i', strtotime("+{$duration} minutes", strtotime($start_time)));
 
+        // Assign a random patient to booked appointments, otherwise, set patient_id to null
+        $patient_id = $status === 'booked' ? Patient::inRandomOrder()->first()->id : null;
+        
+        // Log::info('Factory appointment data', [
+        //     'status' => $status,
+        //     'patient_id' => $patient_id,
+        // ]);
+
         return [
             'schedule_id' => $schedule->id,
             // Create a new patient if not provided
-            'patient_id' => Patient::factory(), 
+            'patient_id' => $patient_id, 
             'provider_id' => $schedule->provider_id,
             'date' => $schedule->date,
             'start_time' => $start_time,
