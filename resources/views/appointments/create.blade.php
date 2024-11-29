@@ -49,9 +49,10 @@
     <div class="mb-4">
       <label for="service" class="block text-gray-700 text-sm font-bold mb-2">Service</label>
       <select name="service_id" id="service" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-        @foreach($services as $service)
+        <!-- @foreach($services as $service)
         <option value="{{ $service->id }}">{{ $service->name }}</option>
-        @endforeach
+        @endforeach -->
+        <!-- Options will be dynamically loaded based on the selected schedule and provider -->
       </select>
       @error('service_id')
       <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -88,6 +89,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('date');
     const scheduleSelect = document.getElementById('schedule');
+    const serviceSelect = document.getElementById('service');
     const startTimeSelect = document.getElementById('start_time');
     const endTimeSelect = document.getElementById('end_time');
 
@@ -114,6 +116,25 @@
               scheduleSelect.selectedIndex = 0;
               scheduleSelect.dispatchEvent(new Event('change'));
             }
+          });
+      }
+    }
+
+    function loadServices(scheduleId) {
+      if (scheduleId) {
+        fetch(`/api/schedules/${scheduleId}/services`)
+          .then(response => response.json())
+          .then(data => {
+            // Clear existing options
+            serviceSelect.innerHTML = '';
+
+            // Populate service options
+            data.services.forEach(service => {
+              const option = document.createElement('option');
+              option.value = service.id;
+              option.textContent = service.name;
+              serviceSelect.appendChild(option);
+            });
           });
       }
     }
@@ -153,6 +174,7 @@
 
     scheduleSelect.addEventListener('change', function() {
       const scheduleId = scheduleSelect.value;
+      loadServices(scheduleId);
       loadTimes(scheduleId);
     });
 

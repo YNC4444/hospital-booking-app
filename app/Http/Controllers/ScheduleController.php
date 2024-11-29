@@ -64,6 +64,14 @@ class ScheduleController extends Controller
         ]);
     }
 
+    public function getServices(Schedule $schedule)
+    {
+        $services = $schedule->provider->services;
+        return response()->json([
+            'services' => $services
+        ]);
+    }
+
     public function getAvailableTimes(Schedule $schedule)
     {
         $startTimes = $this->generateCleanStartTimes($schedule->start_time, $schedule->end_time);

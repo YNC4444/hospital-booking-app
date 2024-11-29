@@ -27,6 +27,13 @@ class ProviderController extends Controller
         $allServices = Service::all();
         return view('providers.create', compact('allServices'));
     }
+    
+    public function getServices(Provider $provider)
+    {
+        return response()->json([
+            'services' => $provider->services
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.

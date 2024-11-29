@@ -77,6 +77,7 @@ Route::get(
   [AppointmentController::class, 'trash'])
   ->name('appointments.restore');
 
+// -------------- api endpoints
 Route::get(
   '/api/schedules', 
   [ScheduleController::class, 'getSchedulesByDate']);
@@ -84,6 +85,14 @@ Route::get(
 Route::get(
   '/api/schedules/{schedule}/times', 
   [ScheduleController::class, 'getAvailableTimes']);
+
+Route::get(
+  '/api/schedules/{schedule}/services',
+  [ScheduleController::class, 'getServices']);
+
+Route::get(
+  '/api/providers/{provider}/services',
+  [ProviderController::class, 'getServices']);
 
 Route::resource('patients', PatientController::class);
 Route::resource('providers', ProviderController::class);
