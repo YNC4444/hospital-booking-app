@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('services');
             $table->string('license_number')->unique();
             $table->date('employment_date')->nullable();
-            $table->string('status')->default('Active');
+            // $table->string('status')->default('Active');
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->softDeletes();
             $table->timestamps();
         });

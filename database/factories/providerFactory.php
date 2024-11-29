@@ -29,7 +29,8 @@ class providerFactory extends Factory
             // Example license number: AB123456
             'license_number' => fake()->regexify('[A-Z]{2}[0-9]{6}'),
             'employment_date' => fake()->date(),
-            'status' => fake()->randomElement(['Active', 'Inactive']),
+            // 'status' => fake()->randomElement(['Active', 'Inactive']),
+            'status' => 'Active',
         ];
     }
 }

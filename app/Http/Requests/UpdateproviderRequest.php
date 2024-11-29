@@ -38,6 +38,7 @@ class UpdateProviderRequest extends FormRequest
             // only allows for valid services to be selected
             'services' => 'required|array|min:1',
             'services.*' => 'integer|in:' . implode(',', $validServiceIds),
+            'status' => 'required|in:Active,Inactive',
         ];
     }
 }

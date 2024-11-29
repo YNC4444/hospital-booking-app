@@ -96,6 +96,20 @@
       <span class="text-red-500 text-sm">{{ $message }}</span>
       @enderror
     </div>
+    <div class="mb-4">
+      <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status</label>
+      <div class="flex items-center">
+        <input type="radio" name="status" value="Active" {{ $provider->status == 'Active' ? 'checked' : '' }} class="mr-2 leading-tight">
+        <span class="text-gray-700">Active</span>
+      </div>
+      <div class="flex items-center">
+        <input type="radio" name="status" value="Inactive" {{ $provider->status == 'Inactive' ? 'checked' : '' }} class="mr-2 leading-tight">
+        <span class="text-gray-700">Inactive</span>
+      </div>
+      @error('status')
+      <span class="text-red-500 text-sm">{{ $message }}</span>
+      @enderror
+    </div>
 
     <div class="flex items-center justify-between">
       <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
