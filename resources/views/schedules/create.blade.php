@@ -52,7 +52,9 @@
       <label for="provider" class="block text-gray-700 text-sm font-bold mb-2">Provider</label>
       <select name="provider_id" id="provider" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         @foreach($providers as $provider)
-          <option value="{{ $provider->id }}">Dr. {{ $provider->lname }}</option>
+          @if($provider->status == 'Active')
+            <option value="{{ $provider->id }}">Dr. {{ $provider->lname }}</option>
+          @endif
         @endforeach
       </select>
       @error('provider')
