@@ -17,6 +17,7 @@ class Appointment extends Model
         'schedule_id',
         'patient_id',
         'provider_id',
+        'service_id',
         'date',
         'start_time',
         'end_time',
@@ -50,5 +51,11 @@ class Appointment extends Model
     public function provider()
     {
         return $this->belongsTo(Provider::class);
+    }
+
+    // each appointment belongs to only one service
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 }

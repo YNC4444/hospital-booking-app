@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\Provider;
 use App\Models\Schedule;
+use App\Models\Service;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use Illuminate\Support\Facades\Session;
@@ -19,8 +20,9 @@ class AppointmentController extends Controller
     {
         $appointments = Appointment::all();
         $providers = Provider::all();
-
-        return view('appointments.index', compact('appointments', 'providers'));
+        $services = Service::all();
+        
+        return view('appointments.index', compact('appointments', 'providers', 'services'));
     }
 
     /**
@@ -31,7 +33,9 @@ class AppointmentController extends Controller
         $patients = Patient::all();
         $providers = Provider::all();
         $schedules = Schedule::all();
-        return view('appointments.create', compact('patients', 'providers', 'schedules'));
+        $services = Service::all();
+
+        return view('appointments.create', compact('patients', 'providers', 'schedules', 'services'));
     }
 
     /**
