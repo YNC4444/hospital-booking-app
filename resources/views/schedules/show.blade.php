@@ -31,7 +31,11 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       @foreach($schedule->appointments as $appointment)
       <div class="block p-4 bg-white shadow-md rounded-lg hover:bg-gray-100 transition duration-200">
-        <h3 class="text-xl font-bold">Patient: {{ $appointment->patient->fname }} {{ $appointment->patient->lname }}</h3>
+        @if($appointment->patient)
+          <h3 class="text-xl font-bold">Patient: {{ $appointment->patient->fname }} {{ $appointment->patient->lname }}</h3>
+        @else
+          <h3 class="text-xl font-bold">Patient: Unbooked</h3>
+        @endif
         <p class="text-gray-700">Time: {{ $appointment->start_time }} - {{ $appointment->end_time }}</p>
         <p class="text-gray-700">Status: {{ $appointment->status }}</p>
       </div>
