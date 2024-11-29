@@ -47,6 +47,17 @@
       @enderror
     </div>
     <div class="mb-4">
+      <label for="service" class="block text-gray-700 text-sm font-bold mb-2">Service</label>
+      <select name="service_id" id="service" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        @foreach($services as $service)
+        <option value="{{ $service->id }}">{{ $service->name }}</option>
+        @endforeach
+      </select>
+      @error('service_id')
+      <span class="text-red-500 text-sm">{{ $message }}</span>
+      @enderror
+    </div>
+    <div class="mb-4">
       <label for="start_time" class="block text-gray-700 text-sm font-bold mb-2">Start Time</label>
       <select name="start_time" id="start_time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         <!-- Options will be dynamically loaded based on the selected schedule -->
@@ -74,79 +85,79 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('date');
     const scheduleSelect = document.getElementById('schedule');
     const startTimeSelect = document.getElementById('start_time');
     const endTimeSelect = document.getElementById('end_time');
 
     function loadSchedules(date) {
-        if (date) {
-            fetch(`/api/schedules?date=${date}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing options
-                    scheduleSelect.innerHTML = '';
-                    startTimeSelect.innerHTML = '';
-                    endTimeSelect.innerHTML = '';
+      if (date) {
+        fetch(`/api/schedules?date=${date}`)
+          .then(response => response.json())
+          .then(data => {
+            // Clear existing options
+            scheduleSelect.innerHTML = '';
+            startTimeSelect.innerHTML = '';
+            endTimeSelect.innerHTML = '';
 
-                    // Populate schedule options with provider information
-                    data.schedules.forEach(schedule => {
-                        const option = document.createElement('option');
-                        option.value = schedule.id;
-                        option.textContent = `Provider: Dr. ${schedule.provider.lname}, Start: ${schedule.start_time}, End: ${schedule.end_time}`;
-                        scheduleSelect.appendChild(option);
-                    });
+            // Populate schedule options with provider information
+            data.schedules.forEach(schedule => {
+              const option = document.createElement('option');
+              option.value = schedule.id;
+              option.textContent = `Provider: Dr. ${schedule.provider.lname}, Start: ${schedule.start_time}, End: ${schedule.end_time}`;
+              scheduleSelect.appendChild(option);
+            });
 
-                    // Trigger change event on the schedule dropdown to load start and end times for the first schedule
-                    if (scheduleSelect.options.length > 0) {
-                        scheduleSelect.selectedIndex = 0;
-                        scheduleSelect.dispatchEvent(new Event('change'));
-                    }
-                });
-        }
+            // Trigger change event on the schedule dropdown to load start and end times for the first schedule
+            if (scheduleSelect.options.length > 0) {
+              scheduleSelect.selectedIndex = 0;
+              scheduleSelect.dispatchEvent(new Event('change'));
+            }
+          });
+      }
     }
 
     function loadTimes(scheduleId) {
-        if (scheduleId) {
-            fetch(`/api/schedules/${scheduleId}/times`)
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing options
-                    startTimeSelect.innerHTML = '';
-                    endTimeSelect.innerHTML = '';
+      if (scheduleId) {
+        fetch(`/api/schedules/${scheduleId}/times`)
+          .then(response => response.json())
+          .then(data => {
+            // Clear existing options
+            startTimeSelect.innerHTML = '';
+            endTimeSelect.innerHTML = '';
 
-                    // Populate start time options
-                    data.start_times.forEach(time => {
-                        const option = document.createElement('option');
-                        option.value = time;
-                        option.textContent = time;
-                        startTimeSelect.appendChild(option);
-                    });
+            // Populate start time options
+            data.start_times.forEach(time => {
+              const option = document.createElement('option');
+              option.value = time;
+              option.textContent = time;
+              startTimeSelect.appendChild(option);
+            });
 
-                    // Populate end time options
-                    data.end_times.forEach(time => {
-                        const option = document.createElement('option');
-                        option.value = time;
-                        option.textContent = time;
-                        endTimeSelect.appendChild(option);
-                    });
-                });
-        }
+            // Populate end time options
+            data.end_times.forEach(time => {
+              const option = document.createElement('option');
+              option.value = time;
+              option.textContent = time;
+              endTimeSelect.appendChild(option);
+            });
+          });
+      }
     }
 
-    dateInput.addEventListener('change', function () {
-        const date = dateInput.value;
-        loadSchedules(date);
+    dateInput.addEventListener('change', function() {
+      const date = dateInput.value;
+      loadSchedules(date);
     });
 
-    scheduleSelect.addEventListener('change', function () {
-        const scheduleId = scheduleSelect.value;
-        loadTimes(scheduleId);
+    scheduleSelect.addEventListener('change', function() {
+      const scheduleId = scheduleSelect.value;
+      loadTimes(scheduleId);
     });
 
     // Trigger the change event on page load to load schedules for the default date
     dateInput.dispatchEvent(new Event('change'));
-});
+  });
 </script>
 @endsection

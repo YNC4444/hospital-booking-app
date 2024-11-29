@@ -46,6 +46,7 @@
     @foreach($appointments as $appointment)
     <a href="{{ route('appointments.show', $appointment->id) }}" class="block p-4 bg-white shadow-md rounded-lg hover:bg-gray-100 transition duration-200">
       <h2 class="text-xl font-bold">Dr.{{ $appointment->provider->lname }}</h2>
+      <p class="text-gray-700">{{ $appointment->patient_id }}</p>
       <p class="text-gray-700">{{ $appointment->date }}</p>
       <p class="text-gray-700">{{ $appointment->start_time }} - {{ $appointment->end_time }}</p>
     </a>

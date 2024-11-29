@@ -19,6 +19,7 @@ class StoreAppointmentRequest extends FormRequest
             // provider_id not included here becuase it will be fetched from schedule_id
             // 'provider_id' => 'required|exists:providers,id',
             // new appointments can only be booked on/after the date it is booked
+            'service_id' => 'required|exists:services,id',
             'date' => 'required|date|after_or_equal:today',
             'start_time' => [
                 'required',

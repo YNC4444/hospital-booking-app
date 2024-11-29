@@ -40,13 +40,14 @@ class DatabaseSeeder extends Seeder
             // Create schedules and appointments for each provider
             Schedule::factory(fake()->numberBetween(1, 5))->create([
                 'provider_id' => $provider->id,
-            ])->each(function ($schedule) {
+            ])->each(function ($schedule) use ($services) {
                 // Create 1 to 3 appointments for each schedule
                 Appointment::factory(fake()->numberBetween(1, 3))->create([
                     // Link appointment to a specific schedule
                     'schedule_id' => $schedule->id,
                     'provider_id' => $schedule->provider_id,
                     'date' => $schedule->date,
+                    'service_id' => $services->random()->id,
                     // Retrieve first record from randomly ordered list of patients
                     // and link appointment to that patient
                     // 'patient_id' => Patient::inRandomOrder()->first()->id,

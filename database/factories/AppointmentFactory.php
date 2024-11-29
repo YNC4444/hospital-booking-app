@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Appointment;
 use App\Models\Schedule;
 use App\Models\Patient;
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Log;
 
@@ -52,6 +53,7 @@ class AppointmentFactory extends Factory
             // Create a new patient if not provided
             'patient_id' => $patient_id, 
             'provider_id' => $schedule->provider_id,
+            'service_id' => Service::inRandomOrder()->first()->id,
             'date' => $schedule->date,
             'start_time' => $start_time,
             'end_time' => $end_time,
