@@ -50,7 +50,6 @@ class AppointmentFactory extends Factory
 
         return [
             'schedule_id' => $schedule->id,
-            // Create a new patient if not provided
             'patient_id' => $patient_id, 
             'provider_id' => $schedule->provider_id,
             'service_id' => Service::inRandomOrder()->first()->id,
@@ -69,16 +68,26 @@ class AppointmentFactory extends Factory
      */
     private function generateCleanStartTimes($start, $end, $duration)
     {
+        // Log::info('Generating start times', [
+        //     'start' => $start,
+        //     'end' => $end,
+        //     'duration' => $duration,
+        // ]);
+
         $startTimes = [];
         $current = strtotime($start);
         $end = strtotime($end);
 
+        // Ensure the start time is aligned to the nearest 15-minute interval
         $current = ceil($current / (15 * 60)) * (15 * 60);
 
-        while ($current <= $end - $duration * 60) {
+        // Generate start times within the schedule's time range
+        while ($current + $duration * 60 <= $end) {
             $startTimes[] = date('H:i', $current);
             $current = strtotime('+15 minutes', $current);
         }
+
+        // Log::info('Generated start times', ['startTimes' => $startTimes]);
 
         return $startTimes;
     }
