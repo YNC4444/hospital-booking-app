@@ -41,7 +41,6 @@
     </div>
     <div class="mb-4">
       <label for="end_time" class="block text-gray-700 text-sm font-bold mb-2">Start time:</label>
-      {{ old('end_time', $schedule->end_time)}}
       <select name="end_time" id="end_time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         <option value="13:00" {{ old('end_time', $schedule->end_time) == '13:00:00' ? 'selected' : '' }}>13:00</option>
       <option value="15:00" {{ old('end_time', $schedule->end_time) == '15:00:00' ? 'selected' : '' }}>15:00</option>
