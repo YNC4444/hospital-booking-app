@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::table('appointments', function (Blueprint $table) {
             // constrained requires each provider id to be a valid id in the providers table
-            $table->foreignId('provider_id')->constrained()->after('patient_id');
-            $table->date('date')->after('provider_id');
+            // incorrect column order in database: fix was to put constrained() at the end and switch order of date and provider_id
+            $table->date('date')->after('patient_id');
+            $table->foreignId('provider_id')->after('patient_id')->constrained();
         });
     }
 

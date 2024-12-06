@@ -31,9 +31,9 @@
     <div class="mb-4">
       <label for="start_time" class="block text-gray-700 text-sm font-bold mb-2">Start time:</label>
       <select name="start_time" id="start_time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-        <option value="07:00" {{ old('start_time', $schedule->start_time) == '07:00' ? 'selected' : '' }}>07:00</option>
-        <option value="13:00" {{ old('start_time', $schedule->start_time) == '13:00' ? 'selected' : '' }}>13:00</option>
-        <option value="15:00" {{ old('start_time', $schedule->start_time) == '15:00' ? 'selected' : '' }}>15:00</option>
+        <option value="07:00" {{ old('start_time', $schedule->start_time) == '07:00:00' ? 'selected' : '' }}>07:00</option>
+        <option value="13:00" {{ old('start_time', $schedule->start_time) == '13:00:00' ? 'selected' : '' }}>13:00</option>
+        <option value="15:00" {{ old('start_time', $schedule->start_time) == '15:00:00' ? 'selected' : '' }}>15:00</option>
       </select>
       @error('start_time')
       <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -41,10 +41,11 @@
     </div>
     <div class="mb-4">
       <label for="end_time" class="block text-gray-700 text-sm font-bold mb-2">Start time:</label>
+      {{ old('end_time', $schedule->end_time)}}
       <select name="end_time" id="end_time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-        <option value="13:00" {{ old('end_time', $schedule->end_time) == '13:00' ? 'selected' : '' }}>13:00</option>
-        <option value="15:00" {{ old('end_time', $schedule->end_time) == '15:00' ? 'selected' : '' }}>15:00</option>
-        <option value="20:00" {{ old('end_time', $schedule->end_time) == '20:00' ? 'selected' : '' }}>20:00</option>
+        <option value="13:00" {{ old('end_time', $schedule->end_time) == '13:00:00' ? 'selected' : '' }}>13:00</option>
+      <option value="15:00" {{ old('end_time', $schedule->end_time) == '15:00:00' ? 'selected' : '' }}>15:00</option>
+      <option value="20:00" {{ old('end_time', $schedule->end_time) == '20:00:00' ? 'selected' : '' }}>20:00</option>
       </select>
       @error('end_time')
       <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -54,9 +55,9 @@
       <label for="provider" class="block text-gray-700 text-sm font-bold mb-2">Provider</label>
       <select name="provider_id" id="provider" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         @foreach($providers as $provider)
-          @if($provider->status == 'Active')
-            <option value="{{ $provider->id }}" {{ $provider->id == old('provider_id', $schedule->provider_id) ? 'selected' : '' }}>Dr. {{ $provider->lname }}</option>
-          @endif
+        @if($provider->status == 'Active')
+        <option value="{{ $provider->id }}" {{ $provider->id == old('provider_id', $schedule->provider_id) ? 'selected' : '' }}>Dr. {{ $provider->lname }}</option>
+        @endif
         @endforeach
       </select>
       @error('provider')

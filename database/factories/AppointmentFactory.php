@@ -31,6 +31,7 @@ class AppointmentFactory extends Factory
 
         // Log::info('Generated clean start times: ', $startTimes);
         // Randomly select a start time from the list
+
         $start_time = $this->faker->randomElement($startTimes);
 
         // Log::info("Selected start time: {$start_time}");
@@ -42,10 +43,15 @@ class AppointmentFactory extends Factory
 
         // Assign a random patient to booked appointments, otherwise, set patient_id to null
         $patient_id = $status === 'booked' ? Patient::inRandomOrder()->first()->id : null;
-        
+
         // Log::info('Factory appointment data', [
         //     'status' => $status,
         //     'patient_id' => $patient_id,
+        // ]);
+
+        // Log::info('Generated appointment', [
+        //     'start_time' => $start_time,
+        //     'end_time' => $end_time,
         // ]);
 
         return [
@@ -69,8 +75,8 @@ class AppointmentFactory extends Factory
     private function generateCleanStartTimes($start, $end, $duration)
     {
         // Log::info('Generating start times', [
-        //     'start' => $start,
-        //     'end' => $end,
+        //     'schedule start' => $start,
+        //     'schedule end' => $end,
         //     'duration' => $duration,
         // ]);
 

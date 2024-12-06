@@ -44,22 +44,32 @@ class DatabaseSeeder extends Seeder
                 // Create 1 to 3 appointments for each schedule
                 Appointment::factory(fake()->numberBetween(1, 3))->create([
                     // Link appointment to a specific schedule
-                    'schedule_id' => $schedule->id,
-                    'provider_id' => $schedule->provider_id,
-                    'date' => $schedule->date,
-                    'service_id' => $services->random()->id,
+                    // 'schedule_id' => $schedule->id,
+                    // 'provider_id' => $schedule->provider_id,
+                    // 'date' => $schedule->date,
+                    // 'service_id' => $services->random()->id,
                     // Retrieve first record from randomly ordered list of patients
                     // and link appointment to that patient
-                    // 'patient_id' => Patient::inRandomOrder()->first()->id,
+                    // 'patient_id' => Patient::inRandomOrder()->first()->id
                 ])->each(function ($appointment) {
                     // Assign a random service to each appointment
                     // $appointment->services()->sync(Service::inRandomOrder()->first()->id);
+                    /*
                     if ($appointment->status === 'booked') {
                         // Assign a random patient to each booked appointment
                         $appointment->patient_id = Patient::inRandomOrder()->first()->id;
                     } else {
                         $appointment->patient_id = null;
                     }
+                        */
+                // gives incorrect start and end times
+                // Log::info('Generated appointment times', [
+                //     'appointment_id' => $appointment->id,
+                //     'start_time' => $appointment->start_time,
+                //     'end_time' => $appointment->end_time,
+                //     'schedule_start_time' => $appointment->schedule->start_time,
+                //     'schedule_end_time' => $appointment->schedule->end_time,
+                // ]);
 
                     // Debugging: Log the status and patient_id after setting
                     // Log::info('After setting patient_id', [
@@ -75,6 +85,7 @@ class DatabaseSeeder extends Seeder
             // generate schedules for the next month
             $nextMonthSchedules = Schedule::factory()->generateNextMonthSchedules($provider);
 
+            /*
             foreach($nextMonthSchedules as $schedule) {
                 $schedule->save();
 
@@ -84,6 +95,7 @@ class DatabaseSeeder extends Seeder
                     'patient_id' => Patient::inRandomOrder()->first()->id,
                 ]);
             }
+                */
         });
 
         // Create admin users
