@@ -31,6 +31,7 @@
     <div class="mb-4">
       <label for="start_time" class="block text-gray-700 text-sm font-bold mb-2">Start time:</label>
       <select name="start_time" id="start_time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        <!-- need to add the :00 at the end because  the value stored in the db has seconds -->
         <option value="07:00" {{ old('start_time', $schedule->start_time) == '07:00:00' ? 'selected' : '' }}>07:00</option>
         <option value="13:00" {{ old('start_time', $schedule->start_time) == '13:00:00' ? 'selected' : '' }}>13:00</option>
         <option value="15:00" {{ old('start_time', $schedule->start_time) == '15:00:00' ? 'selected' : '' }}>15:00</option>
