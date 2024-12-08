@@ -84,7 +84,15 @@ class AppointmentController extends Controller
      */
     public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
-        $appointment->update($request->validated());
+        $data = $request->validated();
+
+        // get schedule_id from appointment
+        $schedule = Schedule::findorFail($data['schedule_id']);
+        // get provider_id from schedule_id
+        $data['provider_id'] = $schedule->provider_id;
+
+        // update appointment with new data
+        $appointment->update($data);
 
         Session::flash('success', 'Appointment updated successfully!');
         return redirect()->route('appointments.show', $appointment->id);
