@@ -16,7 +16,7 @@ class UpdateAppointmentRequest extends FormRequest
     return [
       'schedule_id' => 'required|exists:schedules,id',
       'patient_id' => 'nullable|exists:patients,id',
-      'provider_id' => 'required|exists:providers,id',
+      // 'provider_id' => 'required|exists:providers,id',
       'service_id' => 'required|exists:services,id',
       'date' => 'required|date|after_or_equal:today',
       'start_time' => [
@@ -39,7 +39,7 @@ class UpdateAppointmentRequest extends FormRequest
           }
         },
       ],
-      'status' => 'required|in:available,booked',
+      // 'status' => 'required|in:available,booked',
     ];
   }
 

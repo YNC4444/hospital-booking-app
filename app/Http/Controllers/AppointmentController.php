@@ -71,7 +71,12 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        return view('appointments.edit', compact('appointment'));
+        $patients = Patient::all();
+        $providers = Provider::all();
+        $schedules = Schedule::all();
+        $services = Service::all();
+
+        return view('appointments.edit', compact('appointment', 'patients', 'providers', 'schedules', 'services'));
     }
 
     /**
